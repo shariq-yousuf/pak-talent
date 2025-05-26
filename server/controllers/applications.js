@@ -1,7 +1,19 @@
 import express from 'express'
+import multer from 'multer'
+
 import { createApplication, getAllApplications } from '../models/Application.js'
 
 const router = express.Router()
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/resumes')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  },
+})
+const upload = multer({ storage })
 
 router
   .route('/')
@@ -16,16 +28,20 @@ router
         .json({ success: false, error: 'Failed to fetch applications' })
     }
   })
-  .post(async (req, res) => {
+  .post(upload.single('resume'), async (req, res) => {
     const applicationData = req.body
-    const { candidateId, jobId, resume } = applicationData
+    const { candidateId, jobId } = applicationData
+    const resumeFile = req.file
 
-    if (!candidateId || !jobId || !resume) {
+    if (!candidateId || !jobId || !resumeFile) {
       return res.status(400).json({ error: 'All fields are required' })
     }
 
     try {
-      const newApplication = await createApplication(applicationData)
+      const newApplication = await createApplication({
+        resume: resumeFile.path,
+        ...applicationData,
+      })
 
       if (!newApplication) {
         return res
