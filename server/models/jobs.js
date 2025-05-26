@@ -25,4 +25,14 @@ export const createJob = async (jobData) => {
   }
 }
 
+export const getAllJobs = async () => {
+  try {
+    await connectToDB()
+    return await Job.find({})
+  } catch (error) {
+    console.error('Error fetching jobs:', error?.message)
+    return []
+  }
+}
+
 export default Job

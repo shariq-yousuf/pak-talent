@@ -1,13 +1,19 @@
 import express from 'express'
 
-import { createJob } from '../models/jobs.js'
+import { getAllJobs, createJob } from '../models/jobs.js'
 
 const router = express.Router()
 
 router
   .route('/')
-  .get((req, res) => {
-    res.json({ message: 'List of jobs' })
+  .get(async (req, res) => {
+    try {
+      const jobs = await getAllJobs()
+      res.json({ success: true, data: { jobs } })
+    } catch (error) {
+      console.error('Error fetching jobs:', error?.message)
+      res.status(500).json({ success: false, error: 'Failed to fetch jobs' })
+    }
   })
   .post(async (req, res) => {
     const jobData = req.body
