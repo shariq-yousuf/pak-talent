@@ -1,8 +1,5 @@
-import bcrypt from 'bcrypt'
-
 import User from '../models/User.js'
-
-const saltRounds = 10
+import { generateHash, generateToken } from '../utils/auth.js'
 
 const createUser = async (req, res) => {
   const { username, email, password, companyName, role } = req.body
@@ -12,7 +9,7 @@ const createUser = async (req, res) => {
   }
 
   try {
-    const passwordHash = await bcrypt.hash(password, saltRounds)
+    const passwordHash = await generateHash(password)
 
     const newUser = await User.createUser({
       username,
@@ -28,6 +25,7 @@ const createUser = async (req, res) => {
         .json({ success: false, error: 'Failed to create user' })
     }
 
+    res.header('Authentication', `Bearer ${generateToken(newUser._id)}`)
     res.status(201).json({ success: true, data: { user: newUser } })
   } catch (error) {
     console.error('Error creating user:', error?.message)
