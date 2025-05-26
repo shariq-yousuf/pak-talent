@@ -13,7 +13,7 @@ const jobSchema = new Schema({
 
 const Job = mongoose.model('Job', jobSchema)
 
-export const getAllJobs = async () => {
+const getAllJobs = async () => {
   try {
     await connectToDB()
     return await Job.find({})
@@ -23,7 +23,7 @@ export const getAllJobs = async () => {
   }
 }
 
-export const createJob = async (jobData) => {
+const createJob = async (jobData) => {
   try {
     await connectToDB()
 
@@ -35,12 +35,11 @@ export const createJob = async (jobData) => {
   }
 }
 
-export const updateJob = async (jobData) => {
+const updateJob = async ({ id, ...updateData }) => {
   try {
     await connectToDB()
 
-    const { _id, ...updateData } = jobData
-    return await Job.findByIdAndUpdate(_id, updateData, {
+    return await Job.findByIdAndUpdate(id, updateData, {
       new: true,
     })
   } catch (error) {
@@ -49,7 +48,7 @@ export const updateJob = async (jobData) => {
   }
 }
 
-export const deleteJob = async (jobId) => {
+const deleteJob = async (jobId) => {
   try {
     await connectToDB()
     return await Job.findByIdAndDelete(jobId)
@@ -59,4 +58,9 @@ export const deleteJob = async (jobId) => {
   }
 }
 
-export default Job
+export default {
+  getAllJobs,
+  createJob,
+  updateJob,
+  deleteJob,
+}

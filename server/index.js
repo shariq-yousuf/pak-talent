@@ -3,17 +3,15 @@ import { config } from 'dotenv'
 config()
 
 import userRouter from './routes/user.js'
+import jobRouter from './routes/job.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
-app.get('/hello', (req, res) => {
-  res.send('Hello, World!')
-})
-
 app.use('/users', userRouter)
+app.use('/jobs', jobRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
