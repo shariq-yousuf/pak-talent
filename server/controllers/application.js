@@ -1,13 +1,8 @@
 import Application from '../models/Application.js'
 
 const getAllApplications = async (req, res) => {
-  const { candidate, employer } = req.query
-
   try {
-    const applications = await Application.getAllApplications(
-      candidate,
-      employer
-    )
+    const applications = await Application.getAllApplications(req.user)
     res.json({ success: true, data: { applications } })
   } catch (error) {
     console.error('Error fetching applications:', error?.message)

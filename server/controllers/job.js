@@ -1,10 +1,8 @@
 import Job from '../models/Job.js'
 
 const getAllJobs = async (req, res) => {
-  const { employer } = req.query
-
   try {
-    const jobs = await Job.getAllJobs(employer)
+    const jobs = await Job.getAllJobs(req.user)
     res.json({ success: true, data: { jobs } })
   } catch (error) {
     console.error('Error fetching jobs:', error?.message)

@@ -14,12 +14,13 @@ const jobSchema = new Schema({
 
 const Job = mongoose.model('Job', jobSchema)
 
-const getAllJobs = async (employer) => {
+const getAllJobs = async (user) => {
   try {
     await connectToDB()
     const jobs = await Job.find({}).populate('employer')
 
-    if (employer) {
+    if (user.role === 'employer') {
+      const employer = user._id.toString()
       return jobs.filter((job) => job.employer._id.toString() === employer)
     }
 
