@@ -16,7 +16,7 @@ const applicationSchema = new Schema({
 
 const Application = mongoose.model('Application', applicationSchema)
 
-export const createApplication = async (applicationData) => {
+const createApplication = async (applicationData) => {
   try {
     await connectToDB()
 
@@ -28,7 +28,7 @@ export const createApplication = async (applicationData) => {
   }
 }
 
-export const deleteApplication = async (applicationId) => {
+const deleteApplication = async (applicationId) => {
   try {
     await connectToDB()
     return await Application.findByIdAndDelete(applicationId)
@@ -38,7 +38,7 @@ export const deleteApplication = async (applicationId) => {
   }
 }
 
-export const getAllApplications = async () => {
+const getAllApplications = async () => {
   try {
     await connectToDB()
     return await Application.find({})
@@ -48,7 +48,7 @@ export const getAllApplications = async () => {
   }
 }
 
-export const getApplicationsByCandidateId = async (candidateId) => {
+const getApplicationsByCandidateId = async (candidateId) => {
   try {
     await connectToDB()
     return await Application.find({ candidateId })
@@ -61,7 +61,7 @@ export const getApplicationsByCandidateId = async (candidateId) => {
   }
 }
 
-export const getApplicationsByJobId = async (jobId) => {
+const getApplicationsByJobId = async (jobId) => {
   try {
     await connectToDB()
     return await Application.find({ jobId })
@@ -69,4 +69,12 @@ export const getApplicationsByJobId = async (jobId) => {
     console.error('Error fetching applications by job ID:', error?.message)
     return []
   }
+}
+
+export default {
+  createApplication,
+  deleteApplication,
+  getAllApplications,
+  getApplicationsByCandidateId,
+  getApplicationsByJobId,
 }
