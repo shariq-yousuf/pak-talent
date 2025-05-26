@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
-app.use(checkUser)
 app.use('/users', userRouter)
+app.use(checkUser)
 app.use('/jobs', jobRouter)
 app.use('/applications', applicationRouter)
 

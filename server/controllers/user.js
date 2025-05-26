@@ -40,6 +40,12 @@ const deleteUser = async (req, res) => {
     return res.status(400).json({ error: 'User ID is required' })
   }
 
+  if (id !== req.user._id.toString()) {
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized. You can only delete your own account' })
+  }
+
   try {
     const deletedUser = await User.deleteUser(id)
 
