@@ -1,5 +1,5 @@
 import User from '../models/User.js'
-import { generateHash, generateToken } from '../utils/auth.js'
+import { camparePassword, generateHash, generateToken } from '../utils/auth.js'
 
 const createUser = async (req, res) => {
   const { username, email, password, companyName, role } = req.body
@@ -56,7 +56,36 @@ const deleteUser = async (req, res) => {
   }
 }
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' })
+  }
+
+  try {
+    const user = await User.findByEmail(email)
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' })
+    }
+
+    const isPasswordValid = await camparePassword(password, user.passwordHash)
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid credentials' })
+    }
+
+    res.header('Authentication', `Bearer ${generateToken(user._id)}`)
+    res.json({ success: true, data: { user } })
+  } catch (error) {
+    console.error('Error logging in user:', error?.message)
+    res.status(500).json({ success: false, error: 'Failed to log in user' })
+  }
+}
+
 export default {
   createUser,
   deleteUser,
+  loginUser,
 }

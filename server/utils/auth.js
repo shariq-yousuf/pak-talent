@@ -11,3 +11,7 @@ export const generateHash = async (password) => {
   const saltRounds = 10
   return bcrypt.hash(password, saltRounds)
 }
+
+export const camparePassword = async (password, hash) => {
+  return await bcrypt.compare(password, hash)
+}

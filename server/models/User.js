@@ -48,8 +48,19 @@ const getAllUsers = async () => {
   }
 }
 
+const findByEmail = async (email) => {
+  try {
+    await connectToDB()
+    return await User.findOne({ email })
+  } catch (error) {
+    console.error('User not found:', error?.message)
+    return null
+  }
+}
+
 export default {
   createUser,
   deleteUser,
   getAllUsers,
+  findByEmail,
 }
