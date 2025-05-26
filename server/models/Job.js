@@ -3,6 +3,7 @@ import { connectToDB } from '../db/db.js'
 const { Schema } = mongoose
 
 const jobSchema = new Schema({
+  employer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   title: { type: String, required: true },
   description: String,
   type: { type: String, required: true },
