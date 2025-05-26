@@ -1,10 +1,13 @@
 import Application from '../models/Application.js'
 
 const getAllApplications = async (req, res) => {
-  const { candidate } = req.query
+  const { candidate, employer } = req.query
 
   try {
-    const applications = await Application.getAllApplications(candidate)
+    const applications = await Application.getAllApplications(
+      candidate,
+      employer
+    )
     res.json({ success: true, data: { applications } })
   } catch (error) {
     console.error('Error fetching applications:', error?.message)
@@ -15,17 +18,18 @@ const getAllApplications = async (req, res) => {
 }
 
 const createApplication = async (req, res) => {
+  const userId = req.user?._id
   const applicationData = req.body
-  const { candidate, job } = applicationData
   const resumeFile = req.file
 
-  if (!candidate || !job || !resumeFile) {
+  if (!applicationData.job || !resumeFile) {
     return res.status(400).json({ error: 'All fields are required' })
   }
 
   try {
     const newApplication = await Application.createApplication({
       resume: resumeFile.path,
+      candidate: userId,
       ...applicationData,
     })
 

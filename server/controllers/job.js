@@ -13,6 +13,7 @@ const getAllJobs = async (req, res) => {
 }
 
 const createJob = async (req, res) => {
+  const userId = req.user?._id
   const jobData = req.body
   const { title, description, type, tags, salary, deadline } = jobData
 
@@ -20,7 +21,7 @@ const createJob = async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' })
   }
 
-  const newJob = await Job.createJob(jobData)
+  const newJob = await Job.createJob({ employer: userId, ...jobData })
 
   if (!newJob) {
     return res
