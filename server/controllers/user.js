@@ -90,8 +90,19 @@ const loginUser = async (req, res) => {
   }
 }
 
+const signoutUser = (req, res) => {
+  try {
+    res.header('Authorization', '')
+    res.json({ success: true, message: 'User signed out successfully' })
+  } catch (error) {
+    console.error('Error signing out user:', error?.message)
+    res.status(500).json({ success: false, error: 'Failed to sign out user' })
+  }
+}
+
 export default {
   createUser,
   deleteUser,
   loginUser,
+  signoutUser,
 }
