@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { createJob, deleteJob, getAllJobs, updateJob } from '../models/jobs.js'
+import { createJob, deleteJob, getAllJobs, updateJob } from '../models/Job.js'
 
 const router = express.Router()
 
