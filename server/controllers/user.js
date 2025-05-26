@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
         .json({ success: false, error: 'Failed to create user' })
     }
 
-    res.header('Authentication', `Bearer ${generateToken(newUser._id)}`)
+    res.header('Authorization', `Bearer ${generateToken(newUser._id)}`)
     res.status(201).json({ success: true, data: { user: newUser } })
   } catch (error) {
     console.error('Error creating user:', error?.message)
@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
-    res.header('Authentication', `Bearer ${generateToken(user._id)}`)
+    res.header('Authorization', `Bearer ${generateToken(user._id)}`)
     res.json({ success: true, data: { user } })
   } catch (error) {
     console.error('Error logging in user:', error?.message)
