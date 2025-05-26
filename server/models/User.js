@@ -16,7 +16,7 @@ const userSchema = new Schema({
 
 const User = mongoose.model('User', userSchema)
 
-export const createUser = async (userData) => {
+const createUser = async (userData) => {
   try {
     await connectToDB()
 
@@ -28,7 +28,7 @@ export const createUser = async (userData) => {
   }
 }
 
-export const deleteUser = async (userId) => {
+const deleteUser = async (userId) => {
   try {
     await connectToDB()
     return await User.findByIdAndDelete(userId)
@@ -38,7 +38,7 @@ export const deleteUser = async (userId) => {
   }
 }
 
-export const getAllUsers = async () => {
+const getAllUsers = async () => {
   try {
     await connectToDB()
     return await User.find({})
@@ -46,4 +46,10 @@ export const getAllUsers = async () => {
     console.error('Error fetching users:', error?.message)
     return []
   }
+}
+
+export default {
+  createUser,
+  deleteUser,
+  getAllUsers,
 }
