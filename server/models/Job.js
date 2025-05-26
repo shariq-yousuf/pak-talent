@@ -14,10 +14,16 @@ const jobSchema = new Schema({
 
 const Job = mongoose.model('Job', jobSchema)
 
-const getAllJobs = async () => {
+const getAllJobs = async (employer) => {
   try {
     await connectToDB()
-    return await Job.find({})
+    const jobs = await Job.find({}).populate('employer')
+
+    if (employer) {
+      return jobs.filter((job) => job.employer._id.toString() === employer)
+    }
+
+    return jobs
   } catch (error) {
     console.error('Error fetching jobs:', error?.message)
     return []
@@ -49,10 +55,10 @@ const updateJob = async ({ id, ...updateData }) => {
   }
 }
 
-const deleteJob = async (jobId) => {
+const deleteJob = async (job) => {
   try {
     await connectToDB()
-    return await Job.findByIdAndDelete(jobId)
+    return await Job.findByIdAndDelete(job)
   } catch (error) {
     console.error('Error deleting job:', error?.message)
     return null

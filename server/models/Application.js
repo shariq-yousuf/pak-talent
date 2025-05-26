@@ -3,8 +3,8 @@ import { connectToDB } from '../db/db.js'
 const { Schema } = mongoose
 
 const applicationSchema = new Schema({
-  candidateId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
+  candidate: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  job: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
   resume: { type: String, required: true },
   coverLetter: { type: String },
   status: {
@@ -38,20 +38,34 @@ const deleteApplication = async (applicationId) => {
   }
 }
 
-const getAllApplications = async () => {
+const getAllApplications = async (candidate, employer) => {
   try {
     await connectToDB()
-    return await Application.find({})
+    const applications = await Application.find({}).populate('job')
+
+    if (candidate) {
+      return applications.filter(
+        (app) => app.candidate.toString() === candidate
+      )
+    }
+
+    if (employer) {
+      return applications.filter(
+        (app) => app.job.employer.toString() === employer
+      )
+    }
+
+    return applications
   } catch (error) {
     console.error('Error fetching applications:', error?.message)
     return []
   }
 }
 
-const getApplicationsByCandidateId = async (candidateId) => {
+const getApplicationsByCandidate = async (candidate) => {
   try {
     await connectToDB()
-    return await Application.find({ candidateId })
+    return await Application.find({ candidate })
   } catch (error) {
     console.error(
       'Error fetching applications by candidate ID:',
@@ -61,10 +75,10 @@ const getApplicationsByCandidateId = async (candidateId) => {
   }
 }
 
-const getApplicationsByJobId = async (jobId) => {
+const getApplicationsByJob = async (job) => {
   try {
     await connectToDB()
-    return await Application.find({ jobId })
+    return await Application.find({ job })
   } catch (error) {
     console.error('Error fetching applications by job ID:', error?.message)
     return []
@@ -75,6 +89,6 @@ export default {
   createApplication,
   deleteApplication,
   getAllApplications,
-  getApplicationsByCandidateId,
-  getApplicationsByJobId,
+  getApplicationsByCandidate,
+  getApplicationsByJob,
 }
