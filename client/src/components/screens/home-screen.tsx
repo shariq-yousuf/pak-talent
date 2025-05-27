@@ -6,7 +6,7 @@ interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = ({}) => {
   return (
-    <main className="flex items-center justify-center min-h-dvh p-6">
+    <main className="flex max-w-7xl items-center justify-center min-h-dvh p-6">
       <div className="flex flex-col items-center gap-4">
         <h1 className="md:text-8xl text-4xl text-center">Pak Hunt</h1>
         <p className="text-center text-slate-400 text-lg max-w-3xl">
