@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useLocation } from 'react-router'
 import { z } from 'zod'
 import { Button } from '../ui/button'
 import {
@@ -25,6 +26,10 @@ const formSchema = z
   })
 
 const Signup = () => {
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const role = queryParams.get('role')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,11 +40,27 @@ const Signup = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email,
+          password: values.password,
+          role,
+        }),
+      })
+
+      // const { data: { user },} = await res.json()
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    }
   }
+
   return (
     <main className="min-h-dvh flex items-center justify-center p-6">
       <Form {...form}>
