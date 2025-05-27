@@ -46,7 +46,7 @@ const Signup = () => {
     defaultValues: {
       username: '',
       email: '',
-      role: role as 'employer' | 'candidate' | 'admin',
+      role: (role as 'employer' | 'candidate' | 'admin') || 'candidate',
       password: '',
       confirmPassword: '',
     },
