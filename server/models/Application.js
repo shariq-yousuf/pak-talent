@@ -46,12 +46,15 @@ const deleteApplication = async (applicationId) => {
 const getAllApplications = async (user) => {
   try {
     await connectToDB()
-    const applications = await Application.find({}).populate('job')
+    const applications = await Application.find({}).populate([
+      'job',
+      'candidate',
+    ])
 
     if (user.role === 'candidate') {
       const candidate = user._id.toString()
       return applications.filter(
-        (app) => app.candidate.toString() === candidate
+        (app) => app.candidate._id.toString() === candidate
       )
     }
 
