@@ -1,10 +1,7 @@
-import type { FC } from 'react'
-import { Button } from '../ui/button'
 import { Link } from 'react-router'
+import { Button } from '../ui/button'
 
-interface HomeScreenProps {}
-
-const HomeScreen: FC<HomeScreenProps> = ({}) => {
+const HomeScreen = () => {
   return (
     <main className="flex max-w-7xl items-center justify-center min-h-dvh p-6">
       <div className="flex flex-col items-center gap-4">
