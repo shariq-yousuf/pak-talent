@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import ProtectedRoute from './components/protected-route'
 import RestrictedRoute from './components/restricted-route'
 import { AuthProvider } from './context/auth-context'
+import Apply from './pages/apply'
 import Home from './pages/home'
 import Layout from './pages/layout'
 import Login from './pages/login'
@@ -43,6 +44,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="apply/:jobId"
+              element={
+                <ProtectedRoute>
+                  <Apply />
                 </ProtectedRoute>
               }
             />

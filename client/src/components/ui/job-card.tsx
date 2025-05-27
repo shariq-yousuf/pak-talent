@@ -1,9 +1,12 @@
 import type { Job } from '@/types'
 import type { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { Button } from './button'
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from './card'
@@ -11,9 +14,10 @@ import Tag from './tag'
 
 interface JobCardProps {
   jobData: Job
+  variant?: 'employer' | 'candidate'
 }
 
-const JobCard: FC<JobCardProps> = ({ jobData }) => {
+const JobCard: FC<JobCardProps> = ({ jobData, variant = 'candidate' }) => {
   const { title, description, salary, type, tags, deadline } = jobData
   return (
     <Card>
@@ -46,6 +50,13 @@ const JobCard: FC<JobCardProps> = ({ jobData }) => {
             <span className="text-gray-700">{salary}</span>
           </div>
         </div>
+        {variant === 'candidate' && (
+          <CardFooter className="mt-6">
+            <Link to={`/apply/${jobData._id}`} className="ml-auto">
+              <Button className="cursor-pointer">Apply</Button>
+            </Link>
+          </CardFooter>
+        )}
       </CardContent>
     </Card>
   )
