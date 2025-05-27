@@ -118,7 +118,9 @@ const signoutUser = (req, res) => {
 
 const getUser = async (req, res) => {
   const { _id, username, email, role } = req.user
-  res.json({ success: true, user: { _id, username, email, role } })
+  res
+    .status(200)
+    .json({ success: true, data: { user: { _id, username, email, role } } })
 }
 
 export default {

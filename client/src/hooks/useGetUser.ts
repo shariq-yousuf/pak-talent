@@ -18,7 +18,7 @@ const useGetUser = () => {
         const {
           data: { user },
         } = await response.json()
-
+        console.log('Fetched user:', user)
         setUser(user)
       } catch (error) {
         console.error('Error fetching user:', error)
@@ -26,7 +26,7 @@ const useGetUser = () => {
     }
 
     fetchUser()
-  })
+  }, [])
 
   return user
 }
