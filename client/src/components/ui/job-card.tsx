@@ -10,22 +10,33 @@ import {
   CardHeader,
   CardTitle,
 } from './card'
+import DeleteButton from './delete-button'
 import Tag from './tag'
 
 interface JobCardProps {
   jobData: Job
   variant?: 'employer' | 'candidate' | 'admin'
   isApplied?: boolean
+  onDelete?: () => void
 }
 
 const JobCard: FC<JobCardProps> = ({
   jobData,
   variant = 'candidate',
   isApplied,
+  onDelete,
 }) => {
   const { title, description, salary, type, tags, deadline } = jobData
+
   return (
-    <Card>
+    <Card className="relative">
+      {variant !== 'candidate' && (
+        <DeleteButton
+          deleteUrl={`/api/jobs/${jobData._id}`}
+          onDeleteSuccess={onDelete}
+        />
+      )}
+
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

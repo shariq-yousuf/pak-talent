@@ -45,7 +45,31 @@ const createApplication = async (req, res) => {
   }
 }
 
+const deleteApplication = async (req, res) => {
+  const applicationId = req.params.id
+
+  try {
+    const deletedApplication = await Application.deleteApplication(
+      applicationId
+    )
+
+    if (!deletedApplication) {
+      return res
+        .status(404)
+        .json({ success: false, error: 'Application not found' })
+    }
+
+    res.json({ success: true, data: { application: deletedApplication } })
+  } catch (error) {
+    console.error('Error deleting application:', error?.message)
+    res
+      .status(500)
+      .json({ success: false, error: 'Failed to delete application' })
+  }
+}
+
 export default {
   getAllApplications,
   createApplication,
+  deleteApplication,
 }

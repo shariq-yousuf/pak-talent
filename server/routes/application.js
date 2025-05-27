@@ -15,4 +15,7 @@ router
     applicationController.createApplication
   )
 
+router.use(checkUserRole(['candidate', 'admin']))
+router.route('/:id').delete(applicationController.deleteApplication)
+
 export default router

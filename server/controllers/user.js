@@ -50,7 +50,7 @@ const deleteUser = async (req, res) => {
     return res.status(400).json({ error: 'User ID is required' })
   }
 
-  if (id !== req.user._id.toString()) {
+  if (id !== req.user._id.toString() && req.user.role !== 'admin') {
     return res
       .status(401)
       .json({ error: 'Unauthorized. You can only delete your own account' })

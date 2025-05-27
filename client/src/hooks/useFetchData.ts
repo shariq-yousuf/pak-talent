@@ -1,7 +1,7 @@
 import type { Application, Job, User } from '@/types'
 import { useFetch } from './useFetch'
 
-const useFetchData = (dataModels: string[], dep: string) => {
+const useFetchData = (dataModels: string[], deps: any[]) => {
   let jobs
   let applications
   let users
@@ -9,7 +9,7 @@ const useFetchData = (dataModels: string[], dep: string) => {
   if (dataModels.includes('job')) {
     const jobsData = useFetch<{ success: boolean; data: { jobs: Job[] } }>(
       '/api/jobs',
-      dep
+      [...deps]
     )
     jobs = jobsData?.data?.jobs
   }
@@ -18,7 +18,7 @@ const useFetchData = (dataModels: string[], dep: string) => {
     const applicationsData = useFetch<{
       success: boolean
       data: { applications: Application[] }
-    }>('/api/applications', dep)
+    }>('/api/applications', [...deps])
     applications = applicationsData?.data?.applications
   }
 
@@ -26,7 +26,7 @@ const useFetchData = (dataModels: string[], dep: string) => {
     const usersData = useFetch<{
       success: boolean
       data: { users: User[] }
-    }>('/api/users', dep)
+    }>('/api/users', [...deps])
     users = usersData?.data?.users
   }
 

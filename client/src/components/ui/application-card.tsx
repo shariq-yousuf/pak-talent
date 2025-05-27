@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import type { Application } from '@/types'
 import type { FC } from 'react'
 import { Button } from './button'
@@ -8,17 +9,20 @@ import {
   CardHeader,
   CardTitle,
 } from './card'
+import DeleteButton from './delete-button'
 
 interface ApplicationCardProps {
   appData: Application
   variant?: 'candidate' | 'employer' | 'admin'
   className?: string
+  onDelete?: () => void
 }
 
 const ApplicationCard: FC<ApplicationCardProps> = ({
   appData,
   variant = 'candidate',
   className,
+  onDelete,
 }) => {
   const { job, candidate, status, coverLetter, resume } = appData
   const isProd = import.meta.env.PROD
@@ -26,7 +30,14 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
   const resumeLink = `${isProd ? 'https' : 'http'}://${baseUrl}/users/resume?path=${resume}`
 
   return (
-    <Card className={className}>
+    <Card className={cn(className, 'relative')}>
+      {variant !== 'employer' && (
+        <DeleteButton
+          deleteUrl={`/api/applications/${appData._id}`}
+          onDeleteSuccess={onDelete}
+        />
+      )}
+
       <CardHeader>
         <CardTitle>
           {variant === 'candidate'

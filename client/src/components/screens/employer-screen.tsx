@@ -8,10 +8,19 @@ import JobCard from '../ui/job-card'
 
 const EmployerScreen = () => {
   const [activeTab, setActiveTab] = useState('jobs')
-  const { jobs, applications } = useFetchData(['job', 'application'], activeTab)
+  const [reFetch, setRefetch] = useState(Date.now())
+
+  const { jobs, applications } = useFetchData(
+    ['job', 'application'],
+    [activeTab, reFetch]
+  )
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value)
+  }
+
+  const handleRefetch = () => {
+    setRefetch(Date.now())
   }
 
   return (
@@ -38,7 +47,12 @@ const EmployerScreen = () => {
         <TabsContent value="jobs" className="space-y-4">
           {jobs && jobs.length > 0 ? (
             jobs.map((job) => (
-              <JobCard key={job._id} jobData={job} variant="employer" />
+              <JobCard
+                key={job._id}
+                jobData={job}
+                variant="employer"
+                onDelete={handleRefetch}
+              />
             ))
           ) : (
             <div className="text-gray-500">No jobs.</div>
