@@ -1,5 +1,4 @@
-import { useFetch } from '@/hooks/useFetch'
-import type { Application, Job, User } from '@/types'
+import useFetchData from '@/hooks/useFetchData'
 import { useState } from 'react'
 import ApplicationCard from '../ui/application-card'
 import JobCard from '../ui/job-card'
@@ -8,24 +7,10 @@ import UserCard from '../ui/user-card'
 
 const AdminScreen = () => {
   const [activeTab, setActiveTab] = useState('jobs')
-
-  const jobsData = useFetch<{ success: boolean; data: { jobs: Job[] } }>(
-    '/api/jobs',
+  const { jobs, applications, users } = useFetchData(
+    ['job', 'application', 'user'],
     activeTab
   )
-  const jobs = jobsData?.data?.jobs
-
-  const applicationsData = useFetch<{
-    success: boolean
-    data: { applications: Application[] }
-  }>('/api/applications', activeTab)
-  const applications = applicationsData?.data?.applications
-
-  const usersData = useFetch<{
-    success: boolean
-    data: { users: User[] }
-  }>('/api/users', activeTab)
-  const users = usersData?.data?.users
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value)

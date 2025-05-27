@@ -1,26 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useFetch } from '@/hooks/useFetch'
-import type { Application, Job } from '@/types'
-import ApplicationCard from '../ui/application-card'
-import JobCard from '../ui/job-card'
+import useFetchData from '@/hooks/useFetchData'
 import { useState } from 'react'
-import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import ApplicationCard from '../ui/application-card'
+import { Button } from '../ui/button'
+import JobCard from '../ui/job-card'
 
 const EmployerScreen = () => {
   const [activeTab, setActiveTab] = useState('jobs')
-
-  const jobsData = useFetch<{ success: boolean; data: { jobs: Job[] } }>(
-    '/api/jobs',
-    activeTab
-  )
-  const jobs = jobsData?.data?.jobs
-
-  const applicationsData = useFetch<{
-    success: boolean
-    data: { applications: Application[] }
-  }>('/api/applications', activeTab)
-  const applications = applicationsData?.data?.applications
+  const { jobs, applications } = useFetchData(['job', 'application'], activeTab)
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value)
@@ -49,7 +37,9 @@ const EmployerScreen = () => {
         </TabsList>
         <TabsContent value="jobs" className="space-y-4">
           {jobs && jobs.length > 0 ? (
-            jobs.map((job) => <JobCard key={job._id} jobData={job} variant='employer'/>)
+            jobs.map((job) => (
+              <JobCard key={job._id} jobData={job} variant="employer" />
+            ))
           ) : (
             <div className="text-gray-500">No jobs.</div>
           )}

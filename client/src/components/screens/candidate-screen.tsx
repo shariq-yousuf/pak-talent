@@ -1,24 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useFetch } from '@/hooks/useFetch'
-import type { Application, Job } from '@/types'
+import useFetchData from '@/hooks/useFetchData'
+import { useState } from 'react'
 import ApplicationCard from '../ui/application-card'
 import JobCard from '../ui/job-card'
-import { useState } from 'react'
 
 const CandidateScreen = () => {
   const [activeTab, setActiveTab] = useState('jobs')
-
-  const jobsData = useFetch<{ success: boolean; data: { jobs: Job[] } }>(
-    '/api/jobs',
-    activeTab
-  )
-  const jobs = jobsData?.data?.jobs
-
-  const applicationsData = useFetch<{
-    success: boolean
-    data: { applications: Application[] }
-  }>('/api/applications', activeTab)
-  const applications = applicationsData?.data?.applications
+  const { jobs, applications } = useFetchData(['job', 'application'], activeTab)
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value)
@@ -45,7 +33,9 @@ const CandidateScreen = () => {
               <JobCard
                 key={job._id}
                 jobData={job}
-                isApplied={!!applications?.find((app) => app.job._id === job._id)}
+                isApplied={
+                  !!applications?.find((app) => app.job._id === job._id)
+                }
               />
             ))
           ) : (
