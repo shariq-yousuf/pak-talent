@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://7fca3a23-8922-4bd6-9539-5272c3e05ebd-00-1lhfthxilxezu.sisko.replit.dev//api/:path*"
+      "destination": "https://7fca3a23-8922-4bd6-9539-5272c3e05ebd-00-1lhfthxilxezu.sisko.replit.dev/api/:path*"
     }
   ]
 }
