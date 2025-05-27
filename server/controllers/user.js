@@ -1,5 +1,10 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
 import User from '../models/User.js'
 import { camparePassword, generateHash, generateToken } from '../utils/auth.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const createUser = async (req, res) => {
   const { username, email, password, role } = req.body
@@ -123,10 +128,22 @@ const getUser = async (req, res) => {
     .json({ success: true, data: { user: { _id, username, email, role } } })
 }
 
+const getResume = async (req, res) => {
+  const resumePath = path.resolve(__dirname, '..', req.query.path)
+
+  res.sendFile(resumePath, (err) => {
+    if (err) {
+      console.error('Error sending resume:', err)
+      res.status(500).json({ success: false, error: 'Failed to send resume' })
+    }
+  })
+}
+
 export default {
   createUser,
   deleteUser,
   loginUser,
   signoutUser,
   getUser,
+  getResume,
 }

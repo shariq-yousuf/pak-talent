@@ -21,12 +21,17 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
   className,
 }) => {
   const { job, candidate, status, coverLetter, resume } = appData
+  const isProd = import.meta.env.PROD
+  const baseUrl = import.meta.env.VITE_VERCEL_PROJECT_PRODUCTION_URL
+  const resumeLink = `${isProd ? 'https' : 'http'}://${baseUrl}/users/resume?path=${resume}`
 
   return (
     <Card className={className}>
       <CardHeader>
         <CardTitle>
-          {variant === 'candidate' ? job.title : candidate?.username}
+          {variant === 'candidate'
+            ? job.title
+            : `Candidate: ${candidate?.username}`}
         </CardTitle>
         <CardDescription>
           <span className="font-semibold">Cover Letter</span>:{' '}
@@ -37,8 +42,8 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
         {variant === 'candidate' ? (
           <p>Status: {status}</p>
         ) : (
-          <a href={`/users/resume?path=${resume}`}>
-            <Button>View Resume</Button>
+          <a href={resumeLink} target="_blank">
+            <Button className="cursor-pointer">View Resume</Button>
           </a>
         )}
       </CardFooter>
