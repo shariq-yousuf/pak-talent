@@ -2,15 +2,20 @@ import mongoose from 'mongoose'
 import { connectToDB } from '../db/db.js'
 const { Schema } = mongoose
 
-const jobSchema = new Schema({
-  employer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  title: { type: String, required: true },
-  description: String,
-  type: { type: String, required: true },
-  tags: [String],
-  salary: { type: Number, required: true },
-  deadline: { type: Date, required: true },
-})
+const jobSchema = new Schema(
+  {
+    employer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    title: { type: String, required: true },
+    description: String,
+    type: { type: String, required: true },
+    tags: [String],
+    salary: { type: Number, required: true },
+    deadline: { type: Date, required: true },
+  },
+  {
+    timestamps: true,
+  }
+)
 
 const Job = mongoose.model('Job', jobSchema)
 

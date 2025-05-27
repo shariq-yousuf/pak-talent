@@ -2,17 +2,22 @@ import mongoose from 'mongoose'
 import { connectToDB } from '../db/db.js'
 const { Schema } = mongoose
 
-const applicationSchema = new Schema({
-  candidate: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  job: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
-  resume: { type: String, required: true },
-  coverLetter: { type: String },
-  status: {
-    type: String,
-    enum: ['applied', 'interviewing', 'offered', 'rejected'],
-    default: 'applied',
+const applicationSchema = new Schema(
+  {
+    candidate: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    job: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
+    resume: { type: String, required: true },
+    coverLetter: { type: String },
+    status: {
+      type: String,
+      enum: ['applied', 'interviewing', 'offered', 'rejected'],
+      default: 'applied',
+    },
   },
-})
+  {
+    timestamps: true,
+  }
+)
 
 const Application = mongoose.model('Application', applicationSchema)
 
