@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import { Button } from '../ui/button'
 
 interface HomeScreenProps {}
 
@@ -14,7 +15,17 @@ const HomeScreen: FC<HomeScreenProps> = ({}) => {
           verified listings, and a simple application process.
         </p>
 
-        <div className="flex gap-4 items-center"></div>
+        <div className="flex gap-4 items-center mt-4">
+          <Button className="font-semibold text-lg cursor-pointer">
+            Register as Candidate
+          </Button>
+          <Button
+            variant={'secondary'}
+            className="font-semibold text-lg cursor-pointer"
+          >
+            Register as Employer
+          </Button>
+        </div>
       </div>
     </main>
   )
