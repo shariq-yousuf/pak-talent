@@ -25,7 +25,6 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
   onDelete,
 }) => {
   const { job, candidate, status, coverLetter, resume } = appData
-  const resumeLink = `${import.meta.env.VITE_API_URL}/users/resume?path=${resume}`
 
   return (
     <Card className={cn(className, 'relative')}>
@@ -51,7 +50,7 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
         {variant === 'candidate' ? (
           <p>Status: {status}</p>
         ) : (
-          <a href={resumeLink} target="_blank">
+          <a href={`/api/users/resume?path=${resume}`} target="_blank">
             <Button className="cursor-pointer">View Resume</Button>
           </a>
         )}
