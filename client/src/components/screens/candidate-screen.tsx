@@ -41,7 +41,13 @@ const CandidateScreen = () => {
         </TabsList>
         <TabsContent value="jobs" className="space-y-4">
           {jobs && jobs.length > 0 ? (
-            jobs.map((job) => <JobCard key={job._id} jobData={job} />)
+            jobs.map((job) => (
+              <JobCard
+                key={job._id}
+                jobData={job}
+                isApplied={!!applications?.find((app) => app.job._id === job._id)}
+              />
+            ))
           ) : (
             <div className="text-gray-500">
               No jobs available at the moment.

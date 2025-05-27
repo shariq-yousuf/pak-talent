@@ -15,9 +15,14 @@ import Tag from './tag'
 interface JobCardProps {
   jobData: Job
   variant?: 'employer' | 'candidate'
+  isApplied?: boolean
 }
 
-const JobCard: FC<JobCardProps> = ({ jobData, variant = 'candidate' }) => {
+const JobCard: FC<JobCardProps> = ({
+  jobData,
+  variant = 'candidate',
+  isApplied,
+}) => {
   const { title, description, salary, type, tags, deadline } = jobData
   return (
     <Card>
@@ -53,7 +58,9 @@ const JobCard: FC<JobCardProps> = ({ jobData, variant = 'candidate' }) => {
         {variant === 'candidate' && (
           <CardFooter className="mt-6">
             <Link to={`/apply/${jobData._id}`} className="ml-auto">
-              <Button className="cursor-pointer">Apply</Button>
+              <Button className="cursor-pointer" disabled={isApplied}>
+                {isApplied ? 'Applied' : 'Apply'}
+              </Button>
             </Link>
           </CardFooter>
         )}
