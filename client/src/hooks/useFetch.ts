@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
 
-
-export const useFetch = <T>(url: string, options?: RequestInit) => {
+export const useFetch = <T>(
+  url: string,
+  dep?: string,
+  options?: RequestInit
+) => {
   const [data, setData] = useState<T | null>(null)
 
   useEffect(() => {
@@ -20,7 +23,7 @@ export const useFetch = <T>(url: string, options?: RequestInit) => {
     }
 
     fetchData()
-  }, [url])
+  }, [url, dep])
 
   return data
 }
