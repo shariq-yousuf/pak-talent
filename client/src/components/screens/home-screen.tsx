@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { Button } from '../ui/button'
+import { Link } from 'react-router'
 
 interface HomeScreenProps {}
 
@@ -16,15 +17,19 @@ const HomeScreen: FC<HomeScreenProps> = ({}) => {
         </p>
 
         <div className="flex gap-4 items-center mt-4">
-          <Button className="font-semibold text-lg cursor-pointer">
-            Register as Candidate
-          </Button>
-          <Button
-            variant={'secondary'}
-            className="font-semibold text-lg cursor-pointer"
-          >
-            Register as Employer
-          </Button>
+          <Link to={'/signup?role=candidate'}>
+            <Button className="font-semibold text-lg cursor-pointer">
+              Register as Candidate
+            </Button>
+          </Link>
+          <Link to={'/signup?role=employer'}>
+            <Button
+              variant={'secondary'}
+              className="font-semibold text-lg cursor-pointer"
+            >
+              Register as Employer
+            </Button>
+          </Link>
         </div>
       </div>
     </main>
