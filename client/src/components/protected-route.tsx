@@ -3,15 +3,16 @@ import { useEffect, type ReactNode } from 'react'
 import { useNavigate } from 'react-router'
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const user = useGetUser()
+  const { user, loading } = useGetUser()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       navigate('/login')
-      return
     }
-  }, [user])
+  }, [user, loading])
+
+  if (loading || !user) return <div>Loading...</div>
 
   return <>{children}</>
 }

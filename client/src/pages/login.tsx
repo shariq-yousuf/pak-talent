@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { z } from 'zod'
 import { Button } from '../components/ui/button'
 import {
@@ -13,54 +13,40 @@ import {
   FormMessage,
 } from '../components/ui/form'
 
-const formSchema = z
-  .object({
-    username: z.string().min(2).max(50),
-    email: z.string().email(),
-    password: z.string().min(6).max(100),
-    confirmPassword: z.string().min(6).max(100),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'], // path of error
-  })
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6).max(100),
+})
 
-const Signup = () => {
+const Login = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const role = queryParams.get('role')
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch('/api/users', {
+      const res = await fetch('/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
-          username: values.username,
           email: values.email,
           password: values.password,
-          role,
         }),
       })
 
       if (!res.ok) {
         const { error } = await res.json()
         form.setError('root', {
-          message: error || 'Failed to create account',
+          message: error || 'Failed to login. Please try again.',
         })
         return
       }
@@ -73,9 +59,8 @@ const Signup = () => {
         navigate('/')
       }
     } catch (error) {
-      console.error('Error creating user:', error)
       form.setError('root', {
-        message: 'Failed to create account. Please try again.',
+        message: 'Failed to login. Please try again.',
       })
     }
   }
@@ -87,19 +72,6 @@ const Signup = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="max-w-[400px] min-w-[300px] space-y-6"
         >
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"
@@ -126,39 +98,22 @@ const Signup = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Confirm Password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           {form.formState.errors.root && (
             <FormMessage>{form.formState.errors.root.message}</FormMessage>
           )}
 
           <div className="my-2 text-sm text-gray-500">
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Log In
+            Don't have an account?{' '}
+            <Link to="/signup" className="text-blue-600 hover:underline">
+              Sign Up
             </Link>
           </div>
 
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Log In</Button>
         </form>
       </Form>
     </main>
   )
 }
 
-export default Signup
+export default Login

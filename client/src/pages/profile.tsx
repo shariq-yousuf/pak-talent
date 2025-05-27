@@ -3,7 +3,7 @@ import useGetUser from '@/hooks/useGetUser'
 import { useNavigate } from 'react-router'
 
 const Profile = () => {
-  const user = useGetUser()
+  const { user } = useGetUser()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {

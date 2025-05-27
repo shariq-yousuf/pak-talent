@@ -3,7 +3,7 @@ import HomeScreen from './components/screens/home-screen'
 import useGetUser from './hooks/useGetUser'
 
 function App() {
-  const user = useGetUser()
+  const { user } = useGetUser()
 
   const screen = {
     admin: <div>Admin Screen</div>,
