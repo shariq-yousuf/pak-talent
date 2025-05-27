@@ -112,7 +112,9 @@ const Login = () => {
             </Link>
           </div>
 
-          <Button type="submit">Log In</Button>
+          <Button type="submit" className="cursor-pointer">
+            Log In
+          </Button>
         </form>
       </Form>
     </main>
