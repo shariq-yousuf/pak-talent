@@ -25,9 +25,7 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
   onDelete,
 }) => {
   const { job, candidate, status, coverLetter, resume } = appData
-  const isProd = import.meta.env.PROD
-  const baseUrl = import.meta.env.VITE_VERCEL_PROJECT_PRODUCTION_URL
-  const resumeLink = `${isProd ? 'https' : 'http'}://${baseUrl}/users/resume?path=${resume}`
+  const resumeLink = `${import.meta.env.VITE_API_URL}/users/resume?path=${resume}`
 
   return (
     <Card className={cn(className, 'relative')}>
