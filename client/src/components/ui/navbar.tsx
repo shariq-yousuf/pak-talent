@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between bg-[#171717] px-6 py-2">
       <Link to="/" className="text-xl font-semibold text-slate-300 italic">
-        PakHunt
+        Pak Talent
       </Link>
 
       {user ? (
