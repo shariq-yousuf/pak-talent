@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import ProtectedRoute from './components/protected-route'
+import RestrictedRoute from './components/restricted-route'
 import { AuthProvider } from './context/auth-context'
 import Home from './pages/home'
 import Layout from './pages/layout'
@@ -21,8 +22,22 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="login" element={<Login />} />
+            <Route
+              path="signup"
+              element={
+                <RestrictedRoute>
+                  <Signup />
+                </RestrictedRoute>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <RestrictedRoute>
+                  <Login />
+                </RestrictedRoute>
+              }
+            />
             <Route
               path="profile"
               element={
