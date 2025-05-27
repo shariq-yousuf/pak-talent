@@ -1,4 +1,11 @@
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useAuth } from '@/context/auth-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -18,6 +25,7 @@ const formSchema = z
   .object({
     username: z.string().min(2).max(50),
     email: z.string().email(),
+    role: z.enum(['employer', 'candidate', 'admin']),
     password: z.string().min(6).max(100),
     confirmPassword: z.string().min(6).max(100),
   })
@@ -38,6 +46,7 @@ const Signup = () => {
     defaultValues: {
       username: '',
       email: '',
+      role: role as 'employer' | 'candidate' | 'admin',
       password: '',
       confirmPassword: '',
     },
@@ -55,7 +64,7 @@ const Signup = () => {
           username: values.username,
           email: values.email,
           password: values.password,
-          role,
+          role: values.role,
         }),
       })
 
@@ -118,6 +127,30 @@ const Signup = () => {
           />
           <FormField
             control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={role || 'candidate'}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full cursor-pointer">
+                      <SelectValue placeholder="Select your role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="candidate">Candidate</SelectItem>
+                    <SelectItem value="employer">Employer</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
@@ -157,7 +190,9 @@ const Signup = () => {
             </Link>
           </div>
 
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" className="cursor-pointer">
+            Sign Up
+          </Button>
         </form>
       </Form>
     </main>
