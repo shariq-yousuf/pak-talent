@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input'
+import { useAuth } from '@/context/auth-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
@@ -20,6 +21,7 @@ const formSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate()
+  const { handleAuthChanged } = useAuth()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,6 +58,7 @@ const Login = () => {
       } = await res.json()
 
       if (user) {
+        handleAuthChanged()
         navigate('/')
       }
     } catch (error) {

@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/context/auth-context'
 import useGetUser from '@/hooks/useGetUser'
 import { useNavigate } from 'react-router'
 
 const Profile = () => {
   const { user } = useGetUser()
+  const { handleAuthChanged } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,6 +20,7 @@ const Profile = () => {
         throw new Error('Failed to sign out')
       }
 
+      handleAuthChanged()
       navigate('/login')
     } catch (error) {
       console.error('Error signing out:', error)

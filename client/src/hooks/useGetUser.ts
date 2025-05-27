@@ -1,9 +1,11 @@
+import { useAuth } from '@/context/auth-context'
 import { useEffect, useState } from 'react'
 import type { User } from '../types'
 
 const useGetUser = () => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const { authChanged } = useAuth()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,7 +31,7 @@ const useGetUser = () => {
     }
 
     fetchUser()
-  }, [])
+  }, [authChanged])
 
   return { user, loading }
 }

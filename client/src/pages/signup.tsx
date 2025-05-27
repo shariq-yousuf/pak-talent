@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input'
+import { useAuth } from '@/context/auth-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router'
@@ -26,6 +27,7 @@ const formSchema = z
   })
 
 const Signup = () => {
+  const { handleAuthChanged } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
@@ -70,6 +72,7 @@ const Signup = () => {
       } = await res.json()
 
       if (user) {
+        handleAuthChanged()
         navigate('/')
       }
     } catch (error) {
