@@ -8,6 +8,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useFetch } from '@/hooks/useFetch'
 import type { Application, Job } from '@/types'
+import ApplicationCard from '../ui/application-card'
 import Tag from '../ui/tag'
 
 const CandidateScreen = () => {
@@ -33,7 +34,7 @@ const CandidateScreen = () => {
             Application
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="jobs">
+        <TabsContent value="jobs" className="space-y-4">
           {jobs && jobs.length > 0 ? (
             jobs.map((job) => (
               <Card key={job._id}>
@@ -75,7 +76,15 @@ const CandidateScreen = () => {
             </div>
           )}
         </TabsContent>
-        <TabsContent value="application">No application.</TabsContent>
+        <TabsContent value="application" className="space-y-4">
+          {applications && applications.length > 0 ? (
+            applications.map((app) => (
+              <ApplicationCard key={app._id} appData={app} />
+            ))
+          ) : (
+            <div className="text-gray-500">No applications.</div>
+          )}
+        </TabsContent>
       </Tabs>
     </main>
   )
