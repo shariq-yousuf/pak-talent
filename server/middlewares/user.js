@@ -4,7 +4,8 @@ import User from '../models/User.js'
 
 export const checkUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1]
+    // const token = req.headers.authorization?.split(' ')[1]
+    const token = req.cookies?.token
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     if (!decoded || !decoded.id) {

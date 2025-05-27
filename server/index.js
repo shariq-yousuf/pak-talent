@@ -1,4 +1,5 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
 import { config } from 'dotenv'
 config()
 
@@ -12,6 +13,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/users', userRouter)
 app.use(checkUser)

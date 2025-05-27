@@ -7,7 +7,10 @@ const useGetUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('/api/users/me')
+        const response = await fetch('/api/users/me', {
+          method: 'GET',
+          credentials: 'include',
+        })
         if (!response.ok) {
           throw new Error('Failed to fetch user')
         }

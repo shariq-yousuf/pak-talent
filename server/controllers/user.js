@@ -24,7 +24,13 @@ const createUser = async (req, res) => {
         .json({ success: false, error: 'Failed to create user' })
     }
 
-    res.header('Authorization', `Bearer ${generateToken(newUser._id)}`)
+    // res.header('Authorization', `Bearer ${generateToken(newUser._id)}`)
+    res.cookie('token', generateToken(newUser._id), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', // or 'strict'
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+    })
     res.status(201).json({ success: true, data: { user: newUser } })
   } catch (error) {
     console.error('Error creating user:', error?.message)
@@ -81,7 +87,13 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
-    res.header('Authorization', `Bearer ${generateToken(user._id)}`)
+    // res.header('Authorization', `Bearer ${generateToken(user._id)}`)
+    res.cookie('token', generateToken(user._id), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', // or 'strict'
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+    })
     res.json({ success: true, data: { user } })
   } catch (error) {
     console.error('Error logging in user:', error?.message)
@@ -91,7 +103,12 @@ const loginUser = async (req, res) => {
 
 const signoutUser = (req, res) => {
   try {
-    res.header('Authorization', '')
+    // res.header('Authorization', '')
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    })
     res.json({ success: true, message: 'User signed out successfully' })
   } catch (error) {
     console.error('Error signing out user:', error?.message)
