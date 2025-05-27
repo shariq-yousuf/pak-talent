@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { z } from 'zod'
 import { Button } from '../ui/button'
 import {
@@ -26,6 +26,7 @@ const formSchema = z
   })
 
 const Signup = () => {
+  const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const role = queryParams.get('role')
@@ -55,9 +56,26 @@ const Signup = () => {
         }),
       })
 
-      // const { data: { user },} = await res.json()
+      if (!res.ok) {
+        const { error } = await res.json()
+        form.setError('root', {
+          message: error || 'Failed to create account',
+        })
+        return
+      }
+
+      const {
+        data: { user },
+      } = await res.json()
+
+      if (user) {
+        navigate('/')
+      }
     } catch (error) {
-      console.error('Error submitting form:', error)
+      console.error('Error creating user:', error)
+      form.setError('root', {
+        message: 'Failed to create account. Please try again.',
+      })
     }
   }
 
@@ -124,6 +142,9 @@ const Signup = () => {
               </FormItem>
             )}
           />
+          {form.formState.errors.root && (
+            <FormMessage>{form.formState.errors.root.message}</FormMessage>
+          )}
           <Button type="submit">Submit</Button>
         </form>
       </Form>
