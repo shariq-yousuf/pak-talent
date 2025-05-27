@@ -1,27 +1,39 @@
 import { useState } from 'react'
-import CandidateScreen from './components/screens/candidate-screen'
-import HomeScreen from './components/screens/home-screen'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import ProtectedRoute from './components/protected-route'
 import { AuthProvider } from './context/auth-context'
-import useGetUser from './hooks/useGetUser'
+import Home from './pages/home'
+import Layout from './pages/layout'
+import Login from './pages/login'
+import Profile from './pages/profile'
+import Signup from './pages/signup'
 
 function App() {
-  const { user } = useGetUser()
   const [authChanged, setAuthChanged] = useState(Date.now())
 
   const handleAuthChanged = () => {
-    console.log('Auth changed')
     setAuthChanged(Date.now())
-  }
-
-  const screen = {
-    admin: <div>Admin Screen</div>,
-    candidate: <CandidateScreen />,
-    employer: <div>Employer Screen</div>,
   }
 
   return (
     <AuthProvider value={{ authChanged, handleAuthChanged }}>
-      {!user ? <HomeScreen /> : screen[user.role]}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   )
 }
