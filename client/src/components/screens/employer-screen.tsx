@@ -4,6 +4,8 @@ import type { Application, Job } from '@/types'
 import ApplicationCard from '../ui/application-card'
 import JobCard from '../ui/job-card'
 import { useState } from 'react'
+import { Button } from '../ui/button'
+import { Link } from 'react-router-dom'
 
 const EmployerScreen = () => {
   const [activeTab, setActiveTab] = useState('jobs')
@@ -26,6 +28,12 @@ const EmployerScreen = () => {
 
   return (
     <main className="mx-auto my-6 max-w-7xl p-6">
+      <div className="my-4">
+        <Link to="/add-job">
+          <Button className="cursor-pointer">Post New Job</Button>
+        </Link>
+      </div>
+
       <Tabs
         value={activeTab}
         onValueChange={handleChangeTab}
@@ -41,7 +49,7 @@ const EmployerScreen = () => {
         </TabsList>
         <TabsContent value="jobs" className="space-y-4">
           {jobs && jobs.length > 0 ? (
-            jobs.map((job) => <JobCard key={job._id} jobData={job} />)
+            jobs.map((job) => <JobCard key={job._id} jobData={job} variant='employer'/>)
           ) : (
             <div className="text-gray-500">No jobs.</div>
           )}

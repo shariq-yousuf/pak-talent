@@ -9,6 +9,7 @@ import Layout from './pages/layout'
 import Login from './pages/login'
 import Profile from './pages/profile'
 import Signup from './pages/signup'
+import AddJob from './pages/add-job'
 
 function App() {
   const [authChanged, setAuthChanged] = useState(Date.now())
@@ -52,6 +53,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Apply />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="add-job"
+              element={
+                <ProtectedRoute>
+                  <AddJob />
                 </ProtectedRoute>
               }
             />
