@@ -9,5 +9,6 @@ router.route('/').post(userController.createUser)
 router.route('/:id').delete(checkUser, userController.deleteUser)
 router.route('/login').post(userController.loginUser)
 router.route('/signout').post(checkUser, userController.signoutUser)
+router.route('/me').get(checkUser, userController.getUser)
 
 export default router
