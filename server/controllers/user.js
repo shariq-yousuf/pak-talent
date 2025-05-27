@@ -128,6 +128,16 @@ const getUser = async (req, res) => {
     .json({ success: true, data: { user: { _id, username, email, role } } })
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.getAllUsers()
+    res.status(200).json({ success: true, data: { users } })
+  } catch (error) {
+    console.error('Error fetching users:', error?.message)
+    res.status(500).json({ success: false, error: 'Failed to fetch users' })
+  }
+}
+
 const getResume = async (req, res) => {
   const resumePath = path.resolve(__dirname, '..', req.query.path)
 
@@ -145,5 +155,6 @@ export default {
   loginUser,
   signoutUser,
   getUser,
+  getAllUsers,
   getResume,
 }

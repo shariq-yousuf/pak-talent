@@ -1,3 +1,4 @@
+import AdminScreen from '@/components/screens/admin-screen'
 import EmployerScreen from '@/components/screens/employer-screen'
 import CandidateScreen from '../components/screens/candidate-screen'
 import HomeScreen from '../components/screens/home-screen'
@@ -7,7 +8,7 @@ function Home() {
   const { user } = useGetUser()
 
   const screen = {
-    admin: <div>Admin Screen</div>,
+    admin: <AdminScreen />,
     candidate: <CandidateScreen />,
     employer: <EmployerScreen />,
   }

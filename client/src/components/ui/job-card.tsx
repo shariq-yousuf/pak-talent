@@ -14,7 +14,7 @@ import Tag from './tag'
 
 interface JobCardProps {
   jobData: Job
-  variant?: 'employer' | 'candidate'
+  variant?: 'employer' | 'candidate' | 'admin'
   isApplied?: boolean
 }
 

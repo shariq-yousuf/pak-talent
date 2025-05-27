@@ -11,7 +11,7 @@ import {
 
 interface ApplicationCardProps {
   appData: Application
-  variant?: 'candidate' | 'employer'
+  variant?: 'candidate' | 'employer' | 'admin'
   className?: string
 }
 
