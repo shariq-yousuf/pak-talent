@@ -27,7 +27,7 @@ const AdminScreen = () => {
   return (
     <main className="mx-auto my-6 max-w-7xl p-6">
       <div className="my-4">
-        <Link to="/add-job">
+        <Link to="/jobs/create">
           <Button className="cursor-pointer">Post New Job</Button>
         </Link>
       </div>

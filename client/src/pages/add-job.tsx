@@ -147,8 +147,6 @@ const AddJob = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Full-Time">Full-Time</SelectItem>
-                    <SelectItem value="Part-Time">Part-Time</SelectItem>
                     <SelectItem value="On-Site">On-Site</SelectItem>
                     <SelectItem value="Remote">Remote</SelectItem>
                   </SelectContent>

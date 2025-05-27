@@ -57,7 +57,7 @@ function App() {
               }
             />
             <Route
-              path="add-job"
+              path="/jobs/create"
               element={
                 <ProtectedRoute>
                   <AddJob />
