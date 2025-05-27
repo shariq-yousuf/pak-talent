@@ -81,11 +81,11 @@ const Signup = () => {
   }
 
   return (
-    <main className="min-h-dvh flex items-center justify-center p-6">
+    <main className="mx-auto flex min-h-dvh max-w-7xl items-center justify-center p-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 min-w-[300px] max-w-[400px]"
+          className="max-w-[400px] min-w-[300px] space-y-6"
         >
           <FormField
             control={form.control}
