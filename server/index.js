@@ -23,9 +23,14 @@ app.use(
 )
 
 app.use('/users', userRouter)
+app.use('/api/users', userRouter)
+
 app.use(checkUser)
 app.use('/jobs', jobRouter)
+app.use('/api/jobs', jobRouter)
+
 app.use('/applications', applicationRouter)
+app.use('/api/applications', applicationRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
