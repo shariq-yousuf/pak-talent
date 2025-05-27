@@ -4,6 +4,24 @@ A full-stack job board application where employers can post jobs and candidates 
 
 **Live Demo:** [https://paktalent.vercel.app/](https://paktalent.vercel.app/)
 
+---
+
+## Test User Credentials
+
+**Admin:**  
+email: admin@example.com  
+password: admin123
+
+**Employer:**  
+email: employer@example.com  
+password: 123123
+
+**Candidate:**  
+email: candidate@example.com  
+password: 123123
+
+---
+
 ## Features
 
 - User authentication (JWT, HTTP-only cookies)
