@@ -1,9 +1,10 @@
+import HomeScreen from './components/screens/home-screen'
+import useGetUser from './hooks/useGetUser'
+
 function App() {
-  return (
-    <>
-      <h1 className="text-red-600">Pak Hunt</h1>
-    </>
-  )
+  const user = useGetUser()
+
+  return !user && <HomeScreen />
 }
 
 export default App
