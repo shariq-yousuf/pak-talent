@@ -3,7 +3,7 @@ import { Button } from '../ui/button'
 
 const HomeScreen = () => {
   return (
-    <main className="mx-auto flex min-h-dvh max-w-7xl -translate-y-[50px] items-center justify-center p-4 md:-translate-y-0 md:p-6">
+    <main className="mx-auto flex min-h-dvh max-w-7xl items-center justify-center p-4 md:p-6">
       <div className="flex flex-col items-center gap-4">
         <h1 className="text-center text-5xl md:text-8xl">Pak Talent</h1>
         <p className="max-w-3xl text-center text-lg text-slate-400">
